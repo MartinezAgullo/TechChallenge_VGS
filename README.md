@@ -91,8 +91,8 @@ Figure 8: Time difference between transactions.
 To produce a predictive model, the first step is to define criteria in the dataset for labeling a client as churned. Defining customer churn based on "no transactions within a specific time frame" is a common approach. The overall average transaction frequency is 35,75 days. 
 As an approximation, one could consider that a client has churned using the 75th percentile (Q3). Therefore, if it has been more than 'days_75th_percentile' (46.0 days) without transactions, it is considered churn. Choosing Q3 is an arbitrary threshold, and higher percentiles (e.g., 80th or 90th) could also be considered.
 
-Once that the churn label has been added, the corresponding ML algorithm for prediction can be trained. 
-In this case, a sklearn-based LSTM model has been used. The hyperparameters have been optimised with a grid search. To run the grid optimsation in the notebook, set the RunGridSearch to True (currently is disable to reduce the size of the document).
+Once the churn label has been added, the corresponding ML algorithm for prediction can be trained. 
+In this case, a sklearn-based LSTM model has been used. The hyperparameters have been optimised with a grid search. To run the grid optimization in the notebook, set the RunGridSearch to True (it is currently disabled to reduce the size of the document).
 
 
 | Best LSTM Model Evaluation:        | precision     | recall | f1-score | support |
@@ -107,24 +107,24 @@ In this case, a sklearn-based LSTM model has been used. The hyperparameters have
 | ROC-AUC: 0.487                     |               |        |          |         |
 
 
-The precision, recall, and F1-score for the 'Churn' class are all 0.00, indicating that the model fails to correctly identify any customers who churn. The low ROC value suggests that the model is not learning. To fix this, a more simple algorithm could be useull.
+The precision, recall, and F1-score for the 'Churn' class are all 0.00, indicating that the model fails to correctly identify any customers who churn. The low ROC value suggests that the model is not learning. To fix this, a more simple algorithm could be useful.
 Autoregression can be a viable alternative to neural networks. While it may not capture complex patterns as effectively as more sophisticated models, it's often more interpretable and easier to implement. 
 
 
 
 
 ## Part 3: Natural language processing
-In this part, the dataset with the information about Customer reviews is emplyed.
-For NLP we will be using the [Natural Language Toolkit (NTLK)](https://www.nltk.org/index.html), a leading platform for building Python programs to work with human language data.
+In this part, the dataset with the information about Customer reviews is employed.
+For NLP we will be using the [Natural Language Toolkit (NLTK)](https://www.nltk.org/index.html), a leading platform for building Python programs to work with human language data.
 
 
-The distribution of scores is presented in Figure 9, and the average score customer in Figure 10. In the notebook can be checked the evolution of the sentiment score per week and per month.
+The distribution of scores is presented in Figure 9, and the average score customer in Figure 10. The evolution of the sentiment score per week and per month can be checked in the notebook.
 
 
 
 ![Sentiment Score](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/31_SentimentScore.png)
 
-Figure 9: Sentiment score distribution. Observe how NLTK tool does not provide uniformly distributed scores, this due to the fact that the same reviews are copypasted all over the dataset. In a more realistic scenario, this distribtuon would look more uniform. It can be seen that the majority of reviews are deemed as possitive.
+Figure 9: Sentiment score distribution. Note that the NLTK tool does not provide uniformly distributed scores, which is due to the fact that the same reviews are copy-pasted throughout the dataset. In a more realistic scenario, this distribution would look more uniform. It can be seen that the majority of reviews are deemed as positive.
 
 
 ![Avg Score](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/32_AvgSentimentScore.png)
@@ -132,6 +132,14 @@ Figure 9: Sentiment score distribution. Observe how NLTK tool does not provide u
 Figure 10:  Plot the sentiment score vs customer ID. The majority of customers have an average positive experience.
 
 ## Part 4: Real-world scenario
+**Topic modelling**
+
+**Positive ::**  Key terms such as "fast", "works", "delivery", "perfectly", "quality" suggest that the positive feedback is focused on fast delivery, the product working perfectly, and the overall quality. The terms acceptable", "expectations", "exceeded", "happy", "purchase" indicate that, in some skituations,the products or services exceeded the customer's expectations.
+
+
+
+**Negative ::**  Some customers are highly dissatisfied with the quality of the products, stating that they are poorly made or do not match the descriptions provided (key Terms: "terrible", "described", "poor", "quality", "recommend"). The wide usage of terms such us "arrived", "damaged", "unhelpful", "described", and "terrible" highlights problems with products arriving damaged and customer service being unhelpful in resolving these issues. 
+Other issue is that customers are reporting that products are breaking easily, leaving them unhappy with their purchases("broke", "one", "unhappy", "use").
 
 **Actionable Insights for Business Improvement**
 
