@@ -92,12 +92,11 @@ To produce a predictive model, the first step is to define criteria in the datas
 As an approximation, one could consider that a client has churned using the 75th percentile (Q3). Therefore, if it has been more than 'days_75th_percentile' (46.0 days) without transactions, it is considered churn. Choosing Q3 is an arbitrary threshold, and higher percentiles (e.g., 80th or 90th) could also be considered.
 
 Once that the churn label has been added, the corresponding ML algorithm for prediction can be trained. 
-In this case, a sklearn-based LSTM model has been used. The hyperparameters have been optimised with a grid search. 
+In this case, a sklearn-based LSTM model has been used. The hyperparameters have been optimised with a grid search. To run the grid optimsation in the notebook, set the RunGridSearch to True (currently is disable to reduce the size of the document).
 
 
-| Best LSTM Model Evaluation:        |               |        |          |         |
+| Best LSTM Model Evaluation:        | precision     | recall | f1-score | support |
 |------------------------------------|---------------|--------|----------|---------|
-|                                    | precision     | recall | f1-score | support |
 | No churn (0)                       | 0.75          | 0.97   | 0.85     | 118     |
 | Churn (1)                          | 0.00          | 0.00   | 0.00     | 0.00    |
 |                                    |               |        |          |         |
@@ -115,6 +114,22 @@ Autoregression can be a viable alternative to neural networks. While it may not 
 
 
 ## Part 3: Natural language processing
+In this part, the dataset with the information about Customer reviews is emplyed.
+For NLP we will be using the [Natural Language Toolkit (NTLK)](https://www.nltk.org/index.html), a leading platform for building Python programs to work with human language data.
+
+
+The distribution of scores is presented in Figure 9, and the average score customer in Figure 10. In the notebook can be checked the evolution of the sentiment score per week and per month.
+
+
+
+![Sentiment Score](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/31_SentimentScore.png)
+
+Figure 9: Sentiment score distribution. Observe how NLTK tool does not provide uniformly distributed scores, this due to the fact that the same reviews are copypasted all over the dataset. In a more realistic scenario, this distribtuon would look more uniform. It can be seen that the majority of reviews are deemed as possitive.
+
+
+![Avg Score](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/32_AvgSentimentScore.png)
+
+Figure 10:  Plot the sentiment score vs customer ID. The majority of customers have an average positive experience.
 
 ## Part 4: Real-world scenario
 
