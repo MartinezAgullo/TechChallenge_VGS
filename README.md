@@ -275,7 +275,7 @@ Figure 12: Histograms of the sentiment score distribution. Note that the NLTK to
 Figure 13:  Plot the sentiment score vs customer ID. The entries have being oredered from largest to lowest average sentiment score. The majority of customers have an average positive experience.
 
 ## Part 4: Real-world scenario
-###Topic modelling
+### Topic modelling
 
 [Latent Dirichlet Allocation (LDA)](https://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf) is one of the most popular topic modeling methods [1].
 The 'CountVectorize' function Converts the text data into a document-term matrix (DTM). The parameters of CountVectorizer(max_df=0.9, min_df=2, stop_words='english') are:
@@ -302,7 +302,7 @@ Another issue is that customers are reporting that products are breaking easily,
 
 
 
-###Actionable Insights for Business Improvement
+### Actionable Insights for Business Improvement
 
 ____
 1. Enhance product quality control: 
