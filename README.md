@@ -85,7 +85,7 @@ Figures 7 and 8 provide insights into customer behavior regarding churn. The his
 | Fit                 | Mean | std  |
 |---------------------|------|------|
 | Full data           | 9.89 | 3.16 |
-| N transactions < 18 | 9.71 | 2.93 |
+| Nº transactions < 18 | 9.71 | 2.93 |
 
 ![Occurrences of customer id](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/21_Churn.png)
 
@@ -145,7 +145,54 @@ The transaction amount distribution is presented and fitted in Figure 9. First t
 Figure 9: Histograms of the transaction amounts fitted to (left) a Gaussian and (right) a Beta distributions. The fit parameters are shown on the stat box. 
 
 
-Metrics employed for model evaluation
+
+**ML implementations** 
+ There are several possible ML-based implementations for this task. Firstly we will build a few basic models to test and compare them.
+ 
+ . **Linear Regression**
+   - **Use Case**: Best for simple, linear relationships.
+   - **Advantages**: Easy to interpret and works well with large datasets.
+   - **Disadvantages**: May not perform well with complex datasets due to its assumption of linearity.
+
+2. **Random Forest Regression**
+   - **Use Case**: Suitable for capturing non-linear relationships.
+   - **Advantages**: Handles both linear and non-linear relationships, provides feature importance (Figure 10), and reduces overfitting.
+   - **Disadvantages**: Less interpretable than linear models.
+
+3. **Gradient Boosting Machines (e.g., XGBoost, LightGBM)**
+   - **Use Case**: Ideal when high accuracy is needed.
+   - **Advantages**: Often delivers state-of-the-art performance for regression and handles non-linear relationships effectively.
+   - **Disadvantages**: More complex to tune and interpret, and sensitive to hyperparameters.
+
+4. **Support Vector Regression (SVR)**
+   - **Use Case**: Good for data with many outliers or when capturing complex relationships is crucial.
+   - **Advantages**: Effective in high-dimensional spaces and robust to outliers.
+   - **Disadvantages**: Computationally expensive and requires careful hyperparameter tuning.
+
+5. **Neural Networks**
+   - **Use Case**: Best for large datasets with complex relationships.
+   - **Advantages**: Can model highly complex relationships and is flexible in architecture and hyperparameters.
+   - **Disadvantages**: Requires significant computational resources, large amounts of data, and careful tuning.
+
+
+![Feaure ranking](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/26_FeatureImportance.png)
+
+Figure 10: Ranking of the most relevant variables for the RandomForestRegressor model.
+
+| **Feature**                         | **Importance**|
+|---------------------------------|-----------|
+|                customer_income  |  0.863298 |
+|                 transaction_id  |  0.043099 |
+|                   customer_age  |  0.039149 |
+|                    customer_id  |  0.036174 |
+|          payment_method_paypal  |  0.004898 |
+|   product_category_electronics  |  0.004737 |
+|     product_category_groceries  |  0.004695 |
+|       payment_method_debit card |  0.003950 |
+
+
+
+Metrics employed for model evaluation of the different models:
 
 - Mean Absolute Error (MAE): Measures the average magnitude of the errors in a set of predictions, without considering their direction.
 
@@ -159,15 +206,47 @@ Metrics employed for model evaluation
 
 - Median Absolute Error (MdAE): Measures the median of the absolute errors. Less sensitive to outliers.
 
+Evaluation of metrics:
 
-| Regression model     | MAE    | MSE      | RMSE   | R² Score | MAPE   | MdAE    |
+| **Regression model**     | **MAE**    | **MSE**      | **RMSE**   | **R² Score** | **MAPE**   | **MdAE**    |
 |----------------------|--------|----------|--------|----------|--------|--------|
-| Linear               | 121.44 | 19979.74 | 141.35 | 0.8158   | 14.72% | 114.83 |
-| Random Forest        | 126.99 | 22709.51 | 150.7  | 0.7906   | 15.22% | 117.76 |
-| XGBoost              | 134.97 | 26853.5  | 163.87 | 0.7524   | 16.05% | 124.1  |
-| Support Vector       | 260.65 | 97412.64 | 312.11 | 0.1019   | 33.45% | 235.0  |
-| Neural Network (MLP) | 127.63 | 22823.34 | 151.07 | 0.7896   | 15.39% | 115.61 |
+| **Linear**               | 121.44 | 19979.74 | 141.35 | 0.8158   | 14.72% | 114.83 |
+| **Random Forest**        | 126.99 | 22709.51 | 150.7  | 0.7906   | 15.22% | 117.76 |
+| **XGBoost**              | 134.97 | 26853.5  | 163.87 | 0.7524   | 16.05% | 124.1  |
+| **Support Vector**       | 260.65 | 97412.64 | 312.11 | 0.1019   | 33.45% | 235.0  |
+| **Neural Network (MLP)** | 127.63 | 22823.34 | 151.07 | 0.7896   | 15.39% | 115.61 |
 
+
+Before any optimisation, the linear regression appears to have the best performance. Nevertheless, both the Random Forest (RF) and the Neural Networks (NN) present a comparable performance. RF and NN could be further explored with hyperparameter tuning to potentially improve their performance. XGBoost might also benefit from hyperparameter tuning but the initial tests suggest worst performance when compared to LR, RF or NN. SVR should be deprioritized due to its poor performance.
+
+
+In order to improve the performance of the model a Genetic Algorithm (GA) is used. A GA is a search heuristic inspired by the process of natural selection that is used to find approximate solutions to optimization and search problems. The workflow of the GA is described in Figure 11.
+To implement the GA on the notebook, set the RunGA option to True. 
+
+![Genetic algorithm](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/27_GeneticAlgorithm.png)
+
+Figure 11: The evolutionary cycle of a typical evolutionary algorithm. Each block represents an operation on a population of candidate solutions.
+
+The results of the GA are presented in in the table below.
+### Optimized Regression Models Performance
+
+| **Metric**                          | **Linear Regression** | **Random Forest Regression** | **Neural Network (MLP) Regression** |
+|-------------------------------------|-----------------------|------------------------------|-------------------------------------|
+| **MAE**                             | 121.44                | 124.59                       | 126.49                              |
+| **MSE**                             | 19979.74              | 20759.12                     | 22433.54                            |
+| **RMSE**                            | 141.35                | 144.08                       | 149.78                              |
+| **R² Score**                        | 0.8158                | 0.8086                       | 0.7932                              |
+| **MAPE**                            | 14.72%                | 15.15%                       | 14.45%                              |
+| **MdAE**                            | 114.83                | 121.83                       | 126.03                              |
+
+
+- **Linear Regression** performs the best overall, with the lowest errors (MAE, MSE, RMSE) and the highest R² score, making it a strong, simple model for this dataset.
+  
+- **Random Forest Regression** shows slightly higher errors but still performs well, making it a good choice if more complex relationships or robustness are needed.
+
+- **Neural Network (MLP) Regression** has slightly higher errors and lower R² compared to the other models. It might benefit from more data or further tuning but offers slightly better accuracy on a percentage basis (MAPE).
+
+Therefore, **Linear Regression** is the most suitable model given the current dataset.
 
 
 
@@ -176,18 +255,18 @@ In this part, the dataset with the information about Customer reviews is employe
 For NLP we will be using the [Natural Language Toolkit (NLTK)](https://www.nltk.org/index.html), a leading platform for building Python programs to work with human language data.
 
 
-The distribution of scores is presented in Figure 9, and the average score customer in Figure 10. The evolution of the sentiment score per week and per month can be checked in the notebook.
+The distribution of scores is presented in Figure 12, and the average score customer in Figure 13. The evolution of the sentiment score per week and per month can be checked in the notebook.
 
 
 
 ![Sentiment Score](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/31_SentimentScore.png)
 
-Figure 10: Histograms of the sentiment score distribution. Note that the NLTK tool does not provide uniformly distributed scores, which is due to the fact that the same reviews are copy-pasted throughout the dataset. In a more realistic scenario, this distribution would look more uniform. It can be seen that the majority of reviews are deemed as positive.
+Figure 12: Histograms of the sentiment score distribution. Note that the NLTK tool does not provide uniformly distributed scores, which is due to the fact that the same reviews are copy-pasted throughout the dataset. In a more realistic scenario, this distribution would look more uniform. It can be seen that the majority of reviews are deemed as positive.
 
 
 ![Avg Score](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/32_AvgSentimentScore.png)
 
-Figure 11:  Plot the sentiment score vs customer ID. The entries have being oredered from largest to lowest average sentiment score. The majority of customers have an average positive experience.
+Figure 13:  Plot the sentiment score vs customer ID. The entries have being oredered from largest to lowest average sentiment score. The majority of customers have an average positive experience.
 
 ## Part 4: Real-world scenario
 **Topic modelling**
