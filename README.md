@@ -276,13 +276,12 @@ Figure 13:  Plot the sentiment score vs customer ID. The entries have being ored
 
 ## Part 4: Real-world scenario
 ###Topic modelling
+
 [Latent Dirichlet Allocation (LDA)](https://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf) is one of the most popular topic modeling methods [1].
 The 'CountVectorize' function Converts the text data into a document-term matrix (DTM). The parameters of CountVectorizer(max_df=0.9, min_df=2, stop_words='english') are:
-    - max_df=0.9: Ignores words that appear in more than 90% of the documents, considering them too common to be informative.
-
-    - min_df=2: Ignores words that appear in fewer than 2 documents, considering them too rare.
-
-    - stop_words='english': Removes common English stop words (like "the", "is", etc.). I created a custom_stop_words_list for the stop words, to remove those that I consider uninteresting for topic modelling.
+- max_df=0.9: Ignores words that appear in more than 90% of the documents, considering them too common to be informative.
+- min_df=2: Ignores words that appear in fewer than 2 documents, considering them too rare.
+- stop_words='english': Removes common English stop words (like "the", "is", etc.). I created a custom_stop_words_list for the stop words, to remove those that I consider uninteresting for topic modelling.
 
 he parameters of CountVectorizer and n_components (number of topics to be found) can be tweaked, allowing exploration of how different configurations yield different topic modelling results. As an example, the output of the topic extraction with four topics, max_dfs=0.6 and min_dfs=4:
 
