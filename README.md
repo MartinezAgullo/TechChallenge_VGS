@@ -149,7 +149,7 @@ Figure 9: Histograms of the transaction amounts fitted to (left) a Gaussian and 
 **ML implementations** 
  There are several possible ML-based implementations for this task. Firstly we will build a few basic models to test and compare them.
  
- . **Linear Regression**
+ 1. **Linear Regression**
    - **Use Case**: Best for simple, linear relationships.
    - **Advantages**: Easy to interpret and works well with large datasets.
    - **Disadvantages**: May not perform well with complex datasets due to its assumption of linearity.
@@ -227,9 +227,9 @@ To implement the GA on the notebook, set the RunGA option to True.
 
 Figure 11: The evolutionary cycle of a typical evolutionary algorithm. Each block represents an operation on a population of candidate solutions.
 
+** Optimized Regression Models Performance** 
 The results of the GA are presented in the table below.
-### Optimized Regression Models Performance
-
+ 
 | **Metric**                          | **Linear Regression** | **Random Forest Regression** | **Neural Network (MLP) Regression** |
 |-------------------------------------|-----------------------|------------------------------|-------------------------------------|
 | **MAE**                             | 121.44                | 124.59                       | 126.49                              |
@@ -252,10 +252,16 @@ Therefore, **Linear Regression** is the most suitable model given the current da
 
 ## Part 3: Natural language processing
 In this part, the dataset with the information about Customer reviews is employed.
+First, the dataset is preprocessed:
+    - Tokenization: Break down the review text into individual words.
+    - Stopword Removal: Remove common words like 'the', 'is', etc., that don't contribute to the meaning.
+    - Stemming/Lemmatization: Reduce words to their root form.
+    - Remove rows with empty 'review_text'
 For NLP we will be using the [Natural Language Toolkit (NLTK)](https://www.nltk.org/index.html), a leading platform for building Python programs to work with human language data.
 
+The distribution of scores is presented in Figure 12, and the average score customer in Figure 13. The evolution of the [![Sentiment Score per week](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/33_AvgSentimentPerWeek.png)](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/33_AvgSentimentPerWeek.png) and per month can be checked in the notebook. The scores have been obtained with the nltk::SentimentIntensityAnalyzer()::polarity_scores() function.
+By setting the option InspectScores to True in the notebook, a printout presents each review with the assigned score, allowing to manually evaluate the the behaviour of the polarity_scores() function.
 
-The distribution of scores is presented in Figure 12, and the average score customer in Figure 13. The evolution of the sentiment score per week and per month can be checked in the notebook.
 
 
 
