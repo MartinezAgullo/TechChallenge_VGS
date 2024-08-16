@@ -119,7 +119,7 @@ The hyperparameters have been optimised with a **grid search**. To run the grid 
 
 The precision, recall, and F1-score for the 'Churn' class are all 0.00, indicating that the model fails to correctly identify any customers who churn. The low ROC value suggests that the model is not learning. To fix this, a simpler algorithm could be useful.
 <!--Autoregression can be a viable alternative to neural networks. While it may not capture complex patterns as effectively as more sophisticated models, it's often more interpretable and easier to implement. -->
-A linear regression can be a viable alternative to neural networks. While it may not capture complex patterns as effectively as more sophisticated models, it's often more interpretable and easier to implement. A SMOTE (Synthetic Minority Over-sampling Technique) has been applied to correct the unbalnce between classes. The results of this model are:
+A linear regression can be a viable alternative to neural networks. While it may not capture complex patterns as effectively as more sophisticated models, it's often more interpretable and easier to implement. SMOTE (Synthetic Minority Over-sampling Technique) has been applied to correct the unbalance between classes. The results of this model are:
 
 | Logistic Regression Model Evaluation            | Precision | Recall | F1-Score | Support |
 |-------------------|-----------|--------|----------|---------|
@@ -175,7 +175,7 @@ Figure 9: Histograms of the transaction amounts fitted to (left) a Gaussian and 
    - **Disadvantages**: Requires significant computational resources, large amounts of data, and careful tuning.
 
 
-![Feaure ranking](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/26_FeatureImportance.png)
+![Feature ranking](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/26_FeatureImportance.png)
 
 Figure 10: Ranking of the most relevant variables for the RandomForestRegressor model.
 
@@ -217,7 +217,7 @@ Evaluation of metrics:
 | **Neural Network (MLP)** | 127.63 | 22823.34 | 151.07 | 0.7896   | 15.39% | 115.61 |
 
 
-Before any optimisation, the linear regression appears to have the best performance. Nevertheless, both the Random Forest (RF) and the Neural Networks (NN) present a comparable performance. RF and NN could be further explored with hyperparameter tuning to potentially improve their performance. XGBoost might also benefit from hyperparameter tuning but the initial tests suggest worst performance when compared to LR, RF or NN. SVR should be deprioritized due to its poor performance.
+Before any optimisation, the linear regression appears to have the best performance. Nevertheless, both the Random Forest (RF) and the Neural Networks (NN) present a comparable performance. RF and NN could be further explored with hyperparameter tuning to potentially improve their performance. XGBoost might also benefit from hyperparameter tuning, but initial tests suggest worse performance compared to LR, RF, or NN. SVR should be deprioritized due to its poor performance.
 
 
 In order to improve the performance of the model a Genetic Algorithm (GA) is used. A GA is a search heuristic inspired by the process of natural selection that is used to find approximate solutions to optimization and search problems. The workflow of the GA is described in Figure 11.
@@ -227,7 +227,7 @@ To implement the GA on the notebook, set the RunGA option to True.
 
 Figure 11: The evolutionary cycle of a typical evolutionary algorithm. Each block represents an operation on a population of candidate solutions.
 
-The results of the GA are presented in in the table below.
+The results of the GA are presented in the table below.
 ### Optimized Regression Models Performance
 
 | **Metric**                          | **Linear Regression** | **Random Forest Regression** | **Neural Network (MLP) Regression** |
