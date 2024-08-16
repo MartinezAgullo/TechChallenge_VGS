@@ -259,7 +259,7 @@ First, the dataset is preprocessed:
     - Remove rows with empty 'review_text'
 For NLP we will be using the [Natural Language Toolkit (NLTK)](https://www.nltk.org/index.html), a leading platform for building Python programs to work with human language data.
 
-The distribution of scores is presented in Figure 12, and the average score customer in Figure 13. The evolution of the [![Sentiment Score per week](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/33_AvgSentimentPerWeek.png)](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/33_AvgSentimentPerWeek.png) and per month can be checked in the notebook. The scores have been obtained with the nltk::SentimentIntensityAnalyzer()::polarity_scores() function.
+The distribution of scores is presented in Figure 12, and the average score customer in Figure 13. The evolution of the [Sentiment Score per week](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/33_AvgSentimentPerWeek.png) and per month can be checked in the notebook. The scores have been obtained with the nltk::SentimentIntensityAnalyzer()::polarity_scores() function.
 By setting the option InspectScores to True in the notebook, a printout presents each review with the assigned score, allowing to manually evaluate the the behaviour of the polarity_scores() function.
 
 
