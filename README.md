@@ -228,6 +228,7 @@ To implement the GA on the notebook, set the RunGA option to True.
 Figure 11: The evolutionary cycle of a typical evolutionary algorithm. Each block represents an operation on a population of candidate solutions.
 
 ** Optimized Regression Models Performance** 
+
 The results of the GA are presented in the table below.
  
 | **Metric**                          | **Linear Regression** | **Random Forest Regression** | **Neural Network (MLP) Regression** |
@@ -264,7 +265,6 @@ By setting the option InspectScores to True in the notebook, a printout presents
 
 
 
-
 ![Sentiment Score](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/31_SentimentScore.png)
 
 Figure 12: Histograms of the sentiment score distribution. Note that the NLTK tool does not provide uniformly distributed scores, which is due to the fact that the same reviews are copy-pasted throughout the dataset. In a more realistic scenario, this distribution would look more uniform. It can be seen that the majority of reviews are deemed as positive.
@@ -275,42 +275,64 @@ Figure 12: Histograms of the sentiment score distribution. Note that the NLTK to
 Figure 13:  Plot the sentiment score vs customer ID. The entries have being oredered from largest to lowest average sentiment score. The majority of customers have an average positive experience.
 
 ## Part 4: Real-world scenario
-**Topic modelling**
+###Topic modelling
+[Latent Dirichlet Allocation (LDA)](https://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf) is one of the most popular topic modeling methods [1].
+The 'CountVectorize' function Converts the text data into a document-term matrix (DTM). The parameters of CountVectorizer(max_df=0.9, min_df=2, stop_words='english') are:
+    - max_df=0.9: Ignores words that appear in more than 90% of the documents, considering them too common to be informative.
 
-**Positive ::**  Key terms such as "fast", "works", "delivery", "perfectly", "quality" suggest that the positive feedback is focused on fast delivery, the product working perfectly, and the overall quality. The terms acceptable", "expectations", "exceeded", "happy", "purchase" indicate that, in some skituations,the products or services exceeded the customer's expectations.
+    - min_df=2: Ignores words that appear in fewer than 2 documents, considering them too rare.
+
+    - stop_words='english': Removes common English stop words (like "the", "is", etc.). I created a custom_stop_words_list for the stop words, to remove those that I consider uninteresting for topic modelling.
+
+he parameters of CountVectorizer and n_components (number of topics to be found) can be tweaked, allowing exploration of how different configurations yield different topic modelling results. As an example, the output of the topic extraction with four topics, max_dfs=0.6 and min_dfs=4:
+
+| Topic | Keyworkds                                                             |
+|-------|------------------------------------------------------------------------|
+| 0     | broke, unhappy, amazing, definitely, poor, recommend, quality          |
+| 1     | excellent, unhelpful, damaged, customer, arrived, improved, acceptable |
+| 2     | decent, available, service, excellent, highly, recommend, product      |
+| 3     | long, arrive, perfectly, fast, delivery, terrible, work                |
+
+More configuration are available in the notebook.
+
+Overall, the keywords that define the topics can be separated in positive and negative:
+
+- **Positive ::**  Key terms such as "fast", "works", "delivery", "perfectly", "quality" suggest that the positive feedback is focused on fast delivery, the product working perfectly, and the overall quality. The terms acceptable", "expectations", "exceeded", "happy", "purchase" indicate that, in some situations,the products or services exceeded the customer's expectations.
+- **Negative ::**  Some customers are highly dissatisfied with the quality of the products, stating that they are poorly made or do not match the descriptions provided (key Terms: "terrible", "described", "poor", "quality", "recommend"). The wide usage of terms such as "arrived", "damaged", "unhelpful", "described", and "terrible" highlights problems with products arriving damaged and customer service being unhelpful in resolving these issues. 
+Another issue is that customers are reporting that products are breaking easily, leaving them unhappy with their purchases("broke", "one", "unhappy", "use").
 
 
 
-**Negative ::**  Some customers are highly dissatisfied with the quality of the products, stating that they are poorly made or do not match the descriptions provided (key Terms: "terrible", "described", "poor", "quality", "recommend"). The wide usage of terms such us "arrived", "damaged", "unhelpful", "described", and "terrible" highlights problems with products arriving damaged and customer service being unhelpful in resolving these issues. 
-Other issue is that customers are reporting that products are breaking easily, leaving them unhappy with their purchases("broke", "one", "unhappy", "use").
+###Actionable Insights for Business Improvement
 
 ____
-
-**Actionable Insights for Business Improvement**
-
-
 1. Enhance product quality control: 
-    - Issue: Discrepancies between product descriptions and what customers receive were reported in 14.42% of negative comments.
+    - **Issue**: Discrepancies between product descriptions and what customers receive were reported in 14.42% of negative comments.
     <!-- Consistent complaints about poor product quality and items not matching descriptions. This is mentioned in 14.4% of negative comments. -->
 
-    - Action: Ensure that product descriptions are accurate.  In order to build trust, be transparent about product limitations or potential issues in descriptions.
+    - **Action**: Ensure that product descriptions are accurate.  In order to build trust, be transparent about product limitations or potential issues in descriptions.
 ____
 2. Improve the shipping process:
-    - Issue: Frequent reports of products arriving damaged.
+    - **Issue**: Frequent reports of products arriving damaged.
 
-    - Action: Improve the packaging standards to better protect products during shipping.
+    - **Action**: Improve the packaging standards to better protect products during shipping.
 ____
 3. Maintain the delivery speed:
-    - Issue: Almost 16% of positive comments referred to the fast delivery time.
+    - **Issue**: Almost 16% of positive comments referred to the fast delivery time.
 
-    - Action: Continue with the current delivery strategy.
+    - **Action**: Continue with the current delivery strategy.
     
     
 ____
 4. Revamp customer service training and policies:
-    - Issue: 22.1% of negative comments mentioned how unhelpful the customer service was.
+    - **Issue**: 22.1% of negative comments mentioned how unhelpful the customer service was.
 
-    - Action: Invest in customer service training focused on empathy, problem-solving, and effective communication. Introduce more customer-friendly return, exchange, and complaint resolution policies to address issues promptly and to customer satisfaction.
+    - **Action**: Invest in customer service training focused on empathy, problem-solving, and effective communication. Introduce more customer-friendly return, exchange, and complaint resolution policies to address issues promptly and to customer satisfaction.
 ____
 
 
+
+
+## References
+
+[1] Blei, D., Ng, A., & Jordan, M. (2003). Latent Dirichlet allocation. Journal of Machine Learning Research, 3(4-5), 993–1022. Paper presented at the 18th International Conference on Machine Learning, Williamstown, Massachusetts, June 28-July 1, 2001. https://doi.org/10.1162/jmlr.2003.3.4-5.993
