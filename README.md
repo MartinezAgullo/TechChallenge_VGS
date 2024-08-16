@@ -43,7 +43,7 @@ Main characteristics of the data
 ### Data Visualizations
 First, histograms for the numerical variables are created (Figure 1). The correlations among these are studied in Figure 2. The high correlation between the transaction amount and the customer income is further analysed in Figure 3. The histogram for categorical features is presented in Figures 4 and 5.
 The amount spent per product category is balanced across the three classes (see plot in the notebook).
-Finally, Figure 6 presents the monthly sales over time.
+Finally, Figure 6 presents the monthly sales over time. The latter, while being relative stable, presents a slight negative slope. A linear fit is a simpel way to quantify this: y = (-56.78 ± 16.57)x + (42034230.86 ± 12244833.75). 
 
 
 ![histograms for numerical variables](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/15_VariableHistos.png)
@@ -77,7 +77,7 @@ Figure 6: Monthly sales over time. While the total amount per month is a relativ
 
 
 ## Part 2: Predictive modeling
-** Predict customer churn**
+### Predict customer churn
 
 In this exercise, it is suggested to study customer churn, i.e., whenever a customer leaves the service.
 Figures 7 and 8 provide insights into customer behavior regarding churn. The histogram in Figure 7 has been fitted to a Gaussian distribution. 
@@ -93,32 +93,51 @@ Figure 7: Histogram for number of transactions per customer. It can be seen that
 
 ![Distribution of Days Between Transactions](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/22_DaysBetweenTransactions.png)
 
-Figure 8: Time difference between transactions. 
+Figure 8: Histogram for the time difference between transactions. 
 
 To produce a predictive model, the first step is to define criteria in the dataset for labeling a client as churned. Defining customer churn based on "no transactions within a specific time frame" is a common approach. The overall average transaction frequency is 35.75 days. 
 As an approximation, one could consider that a client has churned using the 75th percentile (Q3). Therefore, if it has been more than 'days_75th_percentile' (46.0 days) without transactions, it is considered churn. Choosing Q3 is an arbitrary threshold, and higher percentiles (e.g., 80th or 90th) could also be considered.
 
 Once the churn label has been added, the corresponding ML algorithm for prediction can be trained. 
-In this case, a sklearn-based LSTM model has been used. The hyperparameters have been optimised with a grid search. To run the grid optimization in the notebook, set the RunGridSearch to True (it is currently disabled to reduce the size of the document).
+In this case, a sklearn-based LSTM model has been used. 
+While LSTMs can capture dependencies over time, they need a relatively large amount of data to train.
+The hyperparameters have been optimised with a **grid search**. To run the grid optimization in the notebook, set the RunGridSearch to True (it is currently disabled to reduce the size of the document).
 
 
-| Best LSTM Model Evaluation:        | precision     | recall | f1-score | support |
-|------------------------------------|---------------|--------|----------|---------|
-| No churn (0)                       | 0.75          | 0.97   | 0.85     | 118     |
-| Churn (1)                          | 0.00          | 0.00   | 0.00     | 0.00    |
-|                                    |               |        |          |         |
-| accuracy                           |               |        | 0.73     | 157     |
-| macro avg                          | 0.37          | 0.49   | 0.42     | 157     |
-| weighted avg                       | 0.56          | 0.73   | 0.64     | 157     |
-|                                    |               |        |          |         |
-| ROC-AUC: 0.487                     |               |        |          |         |
+
+| Best LSTM Model Evaluation            | Precision | Recall | F1-Score | Support |
+|-------------------|-----------|--------|----------|---------|
+| **No churn (0)**  | 0.75      | 0.97   | 0.85     | 118     |
+| **Churn (1)**     | 0.00      | 0.00   | 0.00     | 39      |
+| **Accuracy**      |           |        | 0.73     | 157     |
+| **Macro Avg**     | 0.37      | 0.49   | 0.42     | 157     |
+| **Weighted Avg**  | 0.56      | 0.73   | 0.64     | 157     |
+
+**ROC-AUC: 0.487**
+
 
 
 The precision, recall, and F1-score for the 'Churn' class are all 0.00, indicating that the model fails to correctly identify any customers who churn. The low ROC value suggests that the model is not learning. To fix this, a simpler algorithm could be useful.
-Autoregression can be a viable alternative to neural networks. While it may not capture complex patterns as effectively as more sophisticated models, it's often more interpretable and easier to implement. 
+<!--Autoregression can be a viable alternative to neural networks. While it may not capture complex patterns as effectively as more sophisticated models, it's often more interpretable and easier to implement. -->
+A linear regression can be a viable alternative to neural networks. While it may not capture complex patterns as effectively as more sophisticated models, it's often more interpretable and easier to implement. A SMOTE (Synthetic Minority Over-sampling Technique) has been applied to correct the unbalnce between classes. The results of this model are:
 
+| Logistic Regression Model Evaluation            | Precision | Recall | F1-Score | Support |
+|-------------------|-----------|--------|----------|---------|
+| **Class 0 (No Churn)** | 0.80      | 0.59   | 0.68     | 124     |
+| **Class 1 (Churn)**    | 0.23      | 0.45   | 0.30     | 33      |
+| **Accuracy**       |           |        | 0.56     | 157     |
+| **Macro Avg**      | 0.51      | 0.52   | 0.49     | 157     |
+| **Weighted Avg**   | 0.68      | 0.56   | 0.60     | 157     |
 
-** Predict transaction amount**
+**ROC-AUC: 0.54**
+
+The updated model shows improved recall for the Churn class, indicating a more balanced consideration of both classes. 
+However, it still has low precision for the Churn class, leading to a risk of false positives, which could cause unnecessary actions in real-world applications.
+
+I believe the poor results in predicting churn primarily stem from how the churn variable is defined. 
+Additionally, I think having more data could significantly improve the model's training and performance.
+
+### Predict transaction amount
 The transaction amount distribution is presented and fitted in Figure 9. First to a Gaussian and then to a Beta distribution. The latter seems to better describe the data.
 
 ![Transaction amount fit](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/25_TransactionFit_merged.png)
@@ -163,12 +182,12 @@ The distribution of scores is presented in Figure 9, and the average score custo
 
 ![Sentiment Score](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/31_SentimentScore.png)
 
-Figure 10: Sentiment score distribution. Note that the NLTK tool does not provide uniformly distributed scores, which is due to the fact that the same reviews are copy-pasted throughout the dataset. In a more realistic scenario, this distribution would look more uniform. It can be seen that the majority of reviews are deemed as positive.
+Figure 10: Histograms of the sentiment score distribution. Note that the NLTK tool does not provide uniformly distributed scores, which is due to the fact that the same reviews are copy-pasted throughout the dataset. In a more realistic scenario, this distribution would look more uniform. It can be seen that the majority of reviews are deemed as positive.
 
 
 ![Avg Score](https://github.com/MartinezAgullo/TechChallenge_VGS/blob/main/Images/32_AvgSentimentScore.png)
 
-Figure 11:  Plot the sentiment score vs customer ID. The majority of customers have an average positive experience.
+Figure 11:  Plot the sentiment score vs customer ID. The entries have being oredered from largest to lowest average sentiment score. The majority of customers have an average positive experience.
 
 ## Part 4: Real-world scenario
 **Topic modelling**
